@@ -51,10 +51,8 @@ public class frm_Login extends javax.swing.JFrame {
         jLabel2.setText("Şifre :");
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtUser.setText("admin");
 
         txtPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtPass.setText("admin");
 
         chkSeen.setText("Şifreyi göster");
         chkSeen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

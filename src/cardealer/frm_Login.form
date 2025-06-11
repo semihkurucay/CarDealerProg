@@ -120,7 +120,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="admin"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtPass">
@@ -128,7 +127,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="admin"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkSeen">
