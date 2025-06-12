@@ -84,7 +84,6 @@ public class frm_CarList extends javax.swing.JInternalFrame {
         tblCars = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         lblTotalCar = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnUpdate = new javax.swing.JButton();
@@ -149,8 +148,6 @@ public class frm_CarList extends javax.swing.JInternalFrame {
         lblTotalCar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTotalCar.setText("0");
 
-        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSearch.setText("Ara");
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -167,12 +164,10 @@ public class frm_CarList extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblTotalCar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -185,7 +180,6 @@ public class frm_CarList extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblTotalCar)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,23 +229,23 @@ public class frm_CarList extends javax.swing.JInternalFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Şase Numarası :");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Marka :");
         jLabel4.setToolTipText("");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel5.setText("Model :");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setText("Km Bilgisi :");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel7.setText("Yıl :");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setText("Paket :");
 
         txtCarVIN.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -265,7 +259,7 @@ public class frm_CarList extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("Satış Fiyatı :");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel10.setText("Plaka :");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -473,13 +467,31 @@ public class frm_CarList extends javax.swing.JInternalFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+        cars.tbl_SearchList(tblCars, txtCarVIN.getText(), txtCarBrand.getText(), txtCarModel.getText(), txtCarPacket.getText(), txtCarYear.getText(), txtCarPlate.getText());
+        
+        cl_Cars car = cars.getSearchCarInfo(txtCarVIN.getText(), txtCarBrand.getText(), txtCarModel.getText(), txtCarPacket.getText(), txtCarYear.getText(), txtCarPlate.getText());
+        txtCarVIN.setText(car.getCarVIN());
+        txtCarPacket.setText(car.getCarPacket());
+        txtCarKm.setText(car.getCarKm());
+        txtCarPlate.setText(car.getCarPlate());
+        txtCarPrice.setText(car.getCarPrice());
+        txtCarWebLink.setText(car.getCarWebLink());
+        txtCarComment.setText(car.getCarComment());
+        txtCarBrand.setText(sBrand.get_Brand(car.getCarBrands()));
+        txtCarModel.setText(sModel.get_Model(car.getCarModels()));
+        txtCarYear.setText(car.getCarYear());
+        
+        if(car.getCarReport()){
+            cmbCarReport.setSelectedIndex(1);
+        }else{
+            cmbCarReport.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tblCarsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCarsMouseClicked
         // TODO add your handling code here:
         cl_Cars car = cars.getCarInfo(tblCars.getValueAt(tblCars.getSelectedRow(), 0).toString());
         
-        //lblSelectedID.setText(car.getCarID()+"");
         txtCarVIN.setText(car.getCarVIN());
         txtCarPacket.setText(car.getCarPacket());
         txtCarKm.setText(car.getCarKm());
@@ -537,6 +549,5 @@ public class frm_CarList extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCarVIN;
     private javax.swing.JTextField txtCarWebLink;
     private javax.swing.JTextField txtCarYear;
-    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

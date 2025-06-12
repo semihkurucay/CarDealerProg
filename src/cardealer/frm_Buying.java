@@ -390,7 +390,7 @@ public class frm_Buying extends javax.swing.JInternalFrame {
                                     boolean isAddProc = sProc.process(car, txtUserID.getText(), txtCarPrice.getText(),"ALIŞ");
                                 
                                     if(isAddCar && isAddProc){
-                                        String carBrandModelPlate = sCar.getCarBrandModel(txtCarVIN.getText());
+                                        String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
                                         sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
                                         JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
                                     }else{
@@ -419,7 +419,7 @@ public class frm_Buying extends javax.swing.JInternalFrame {
                             boolean isAddProc = sProc.process(car, txtUserID.getText(), txtCarPrice.getText(), "ALIŞ");
                         
                             if(isAddCar && isAddProc){
-                                String carBrandModelPlate = sCar.getCarBrandModel(txtCarVIN.getText());
+                                String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
                                 sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
                                 JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
                             }else{
