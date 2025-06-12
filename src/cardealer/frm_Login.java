@@ -138,26 +138,26 @@ public class frm_Login extends javax.swing.JFrame {
 
     private void chkSeenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSeenActionPerformed
         // TODO add your handling code here:
-        if(chkSeen.isSelected()){
-            txtPass.setEchoChar((char)0);
-        }else{
+        if (chkSeen.isSelected()) {
+            txtPass.setEchoChar((char) 0);
+        } else {
             txtPass.setEchoChar('\u2022');
         }
-        
+
     }//GEN-LAST:event_chkSeenActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         sl_Login login = new sl_Login();
-        
-        if(login.isLogin(txtUser.getText(), txtPass.getText())){
+
+        if (login.isLogin(txtUser.getText(), txtPass.getText())) {
             frm_Main home = new frm_Main();
             home.setVisible(true);
             this.dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Hatalı giriş denemesi, kullanıcı adınız ya da şifreniz hatalı girdiniz.\nLütfen tekrar deneyin!", "Hatalı Giriş", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

@@ -17,15 +17,15 @@ public class frm_MailMessage extends javax.swing.JInternalFrame {
      */
     public frm_MailMessage() {
         initComponents();
-        
+
         txtTitle.setText(mMessage[0]);
         txtFrontMessage.setText(mMessage[1]);
         txtBackMessage.setText(mMessage[2]);
     }
-    
+
     sl_Mail mail = new sl_Mail();
     String[] mMessage = mail.getMailMessage();
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -267,9 +267,9 @@ public class frm_MailMessage extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if(mail.updateMailMessage(txtTitle.getText(), txtFrontMessage.getText(), txtBackMessage.getText())){
+        if (mail.updateMailMessage(txtTitle.getText(), txtFrontMessage.getText(), txtBackMessage.getText())) {
             JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed

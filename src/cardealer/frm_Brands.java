@@ -18,25 +18,26 @@ public class frm_Brands extends javax.swing.JInternalFrame {
      */
     public frm_Brands() {
         initComponents();
-        tblBrands.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID","ADI"}));
+        tblBrands.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID", "ADI"}));
         refresh();
     }
 
     cl_Brands brand = new cl_Brands();
     sl_Brands sBrand = new sl_Brands();
-    
-    private void refresh(){
+
+    private void refresh() {
         sBrand.tbl_List(tblBrands);
     }
-    
-    private boolean isNotEmpty(){
-        if(!txtBrandName.getText().equals("")){
+
+    private boolean isNotEmpty() {
+        if (!txtBrandName.getText().equals("")) {
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Marka Adı bölümü boş geçilemez.", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -238,34 +239,34 @@ public class frm_Brands extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
+        if (isNotEmpty()) {
             brand.setBrandName(txtBrandName.getText().toUpperCase());
-            if(sBrand.add(brand)){
+            if (sBrand.add(brand)) {
                 JOptionPane.showMessageDialog(null, "Marka eklemesi başarıyla gerçekleşti", "Başarılı Ekleme", JOptionPane.INFORMATION_MESSAGE);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Marka eklemesi yapılamadı", "Başarısız Ekleme", JOptionPane.ERROR_MESSAGE);
             }
-            
+
             refresh();
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
-            try{
+        if (isNotEmpty()) {
+            try {
                 brand.setBrandID(Integer.valueOf(txtBrandID.getText()));
                 brand.setBrandName(txtBrandName.getText().toUpperCase());
-                if(sBrand.update(brand)){
+                if (sBrand.update(brand)) {
                     JOptionPane.showMessageDialog(null, "Marka güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Marka güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Marka güncellenmesi yapılamadı, ID değeri sadece sayı olamlı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnUpdateActionPerformed
 

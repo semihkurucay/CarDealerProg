@@ -17,17 +17,17 @@ public class frm_History extends javax.swing.JInternalFrame {
      */
     public frm_History() {
         initComponents();
-        tblHistory.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID","İŞLEM NO","KULLANICI","FİYAT","İŞLEM"}));
+        tblHistory.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID", "İŞLEM NO", "KULLANICI", "FİYAT", "İŞLEM"}));
         refresh();
     }
-    
+
     sl_Process sProc = new sl_Process();
-    
-    private void refresh(){
+
+    private void refresh() {
         sProc.tbl_List(tblHistory);
     }
-    
-    private void putInPlate(String[] proc){
+
+    private void putInPlate(String[] proc) {
         String[] info = proc;
         txtProcessID.setText(info[0]);
         lblProcessType.setText(info[1]);

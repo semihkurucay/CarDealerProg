@@ -17,10 +17,10 @@ public class cl_Brands {
         this.brandID = brandID;
         this.brandName = brandName;
     }
-    
+
     public cl_Brands() {
     }
-    
+
     //GET
     public int getBrandID() {
         return brandID;
@@ -30,7 +30,6 @@ public class cl_Brands {
         return brandName;
     }
 
-    
     //SET
     public void setBrandID(int brandID) {
         this.brandID = brandID;
@@ -39,9 +38,9 @@ public class cl_Brands {
     public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return brandName;
     }
 }

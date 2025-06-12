@@ -18,7 +18,7 @@ public class frm_LoginUsers extends javax.swing.JInternalFrame {
      */
     public frm_LoginUsers() {
         initComponents();
-        tblUsers.setModel(new DefaultTableModel(new Object[][]{},new String[]{"ID","KULLANICI ADI","ŞİFRE"}));
+        tblUsers.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID", "KULLANICI ADI", "ŞİFRE"}));
         refresh();
     }
 
@@ -26,26 +26,26 @@ public class frm_LoginUsers extends javax.swing.JInternalFrame {
     int id = -1;
     String userName = "";
     String password = "";
-    
-    private void refresh(){
+
+    private void refresh() {
         user.tbl_List(tblUsers);
     }
-    
-    private void setValue(){
+
+    private void setValue() {
         id = Integer.valueOf(txtUserID.getText());
         userName = txtUserNickname.getText();
         password = txtUserPassword.getText();
     }
-    
-    private boolean isNotEmpty(){
-        if(!txtUserNickname.getText().equals("") && !txtUserPassword.getText().equals("")){
+
+    private boolean isNotEmpty() {
+        if (!txtUserNickname.getText().equals("") && !txtUserPassword.getText().equals("")) {
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı Adı, Şifre bölümleri boş geçilemez.", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -277,57 +277,57 @@ public class frm_LoginUsers extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
-            try{
+        if (isNotEmpty()) {
+            try {
                 txtUserID.setText("-1");
                 setValue();
-            
-                if(user.add(userName,password)){
+
+                if (user.add(userName, password)) {
                     JOptionPane.showMessageDialog(null, "Kullanıcı eklemesi başarıyla gerçekleşti", "Başarılı Ekleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Kullanıcı eklemesi yapılamadı", "Başarısız Ekleme", JOptionPane.ERROR_MESSAGE);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Kullanıcı eklemesi yapılamadı, ID değeri sadece sayı olamlı", "Başarısız Ekleme", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
-            try{
+        if (isNotEmpty()) {
+            try {
                 setValue();
-            
-                if(user.update(id,userName,password)){
+
+                if (user.update(id, userName, password)) {
                     JOptionPane.showMessageDialog(null, "Kullanıcı güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Kullanıcı güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Kullanıcı güncellenmesi yapılamadı, ID değeri sadece sayı olamlı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             setValue();
-            
-            if(user.delete(id)){
+
+            if (user.delete(id)) {
                 JOptionPane.showMessageDialog(null, "Kullanıcı silinmesi başarıyla gerçekleşti", "Başarılı Silme", JOptionPane.INFORMATION_MESSAGE);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Kullanıcı silinmedi", "Başarısız Silme", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Kullanıcı silinmesi yapılamadı, ID değeri sadece sayı olamlı", "Başarısız Silme", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnDeleteActionPerformed
 

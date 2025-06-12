@@ -9,7 +9,7 @@ package cardealer;
  * @author semih
  */
 public class cl_Users {
-    
+
     private String userID = "";
     private String userName_Surname = "";
     private String userTaxOffice = "";
@@ -19,7 +19,7 @@ public class cl_Users {
     private String userDistrict = "";
     private String userAddress = "";
 
-    public cl_Users(String userID, String userName_Surname,String userTaxOffice, String userPhone, String userMail, String userCity, String userDistrict, String userAddress) {
+    public cl_Users(String userID, String userName_Surname, String userTaxOffice, String userPhone, String userMail, String userCity, String userDistrict, String userAddress) {
         this.userID = userID;
         this.userName_Surname = userName_Surname;
         this.userTaxOffice = userTaxOffice;
@@ -29,11 +29,11 @@ public class cl_Users {
         this.userDistrict = userDistrict;
         this.userAddress = userAddress;
     }
-    
-    public cl_Users(){
-        
+
+    public cl_Users() {
+
     }
-    
+
     //GET
     public String getUserID() {
         return userID;
@@ -67,7 +67,6 @@ public class cl_Users {
         return userAddress;
     }
 
-    
     //SET
     public void setUserID(String userID) {
         this.userID = userID;

@@ -17,21 +17,21 @@ public class frm_MailSetting extends javax.swing.JInternalFrame {
      */
     public frm_MailSetting() {
         initComponents();
-        
+
         txtMail.setText(mSetting[0]);
         txtPassword.setText(mSetting[1]);
         txtPort.setText(mSetting[2]);
         txtHost.setText(mSetting[3]);
-        
-        if(mSetting[4].equals("true")){
+
+        if (mSetting[4].equals("true")) {
             cmbAuth.setSelectedIndex(0);
-        }else{
+        } else {
             cmbAuth.setSelectedIndex(1);
         }
-        
-        if(mSetting[5].equals("true")){
+
+        if (mSetting[5].equals("true")) {
             cmbStarttls.setSelectedIndex(0);
-        }else{
+        } else {
             cmbStarttls.setSelectedIndex(1);
         }
     }
@@ -39,7 +39,7 @@ public class frm_MailSetting extends javax.swing.JInternalFrame {
     mail testMail = new mail();
     sl_Mail sMail = new sl_Mail();
     String[] mSetting = sMail.getMailSetting();
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -234,17 +234,17 @@ public class frm_MailSetting extends javax.swing.JInternalFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         boolean auth = true, starttls = true;
-        
-        if(cmbAuth.getSelectedIndex() == 1){
+
+        if (cmbAuth.getSelectedIndex() == 1) {
             auth = false;
         }
-        if(cmbStarttls.getSelectedIndex() == 1){
+        if (cmbStarttls.getSelectedIndex() == 1) {
             starttls = false;
         }
-        
-        if(sMail.updateMailSetting(txtMail.getText(), txtPassword.getText(), txtPort.getText(), txtHost.getText(), auth, starttls)){
+
+        if (sMail.updateMailSetting(txtMail.getText(), txtPassword.getText(), txtPort.getText(), txtHost.getText(), auth, starttls)) {
             JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed

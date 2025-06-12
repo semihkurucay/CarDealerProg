@@ -19,36 +19,39 @@ public class frm_CarList extends javax.swing.JInternalFrame {
      */
     public frm_CarList() {
         initComponents();
-        tblCars.setModel(new DefaultTableModel(new Object[][]{},new String[]{"ŞASE NO","PLAKA","MARKA","MODEL"}));
+        tblCars.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ŞASE NO", "PLAKA", "MARKA", "MODEL"}));
         refresh();
     }
-    
+
     cl_Cars car = new cl_Cars();
     sl_CarList cars = new sl_CarList();
     sl_Brands sBrand = new sl_Brands();
     sl_Models sModel = new sl_Models();
-    
-    private void refresh(){
+
+    private void refresh() {
         cars.tbl_List(tblCars);
         lblTotalCar.setText(cars.getCarActiveCount() + "");
         lblAllCarCount.setText(cars.getCarAllCount() + "");
     }
-    
-    private boolean isNotEmpty(){
-        if(!txtCarPlate.getText().equals("") && !txtCarPrice.getText().equals("")){
+
+    private boolean isNotEmpty() {
+        if (!txtCarPlate.getText().equals("") && !txtCarPrice.getText().equals("")) {
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Plaka ve Fiyat bölümleri boş geçilemez ve Marka Model seçilmeli", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
 
-    private boolean setCarInfo(){
-        try{
+    private boolean setCarInfo() {
+        if (cars.isTherePlate(txtCarPlate.getText().toUpperCase()) || txtCarPlate.getText().length() < 1) {
+            return false;
+        }
+
+        try {
             float value = Float.valueOf(txtCarPrice.getText());
             value = Float.valueOf(txtCarKm.getText());
-            value = Float.valueOf(txtCarYear.getText());
-            
+
             car.setCarComment(txtCarComment.getText());
             car.setCarKm(txtCarKm.getText());
             car.setCarPacket(txtCarPacket.getText().toUpperCase());
@@ -56,19 +59,19 @@ public class frm_CarList extends javax.swing.JInternalFrame {
             car.setCarPrice(txtCarPrice.getText());
             car.setCarVIN(txtCarVIN.getText());
             car.setCarWebLink(txtCarWebLink.getText().toLowerCase());
-            if(cmbCarReport.getSelectedIndex()==0){
+            if (cmbCarReport.getSelectedIndex() == 0) {
                 car.setCarReport(false);
-            }else{
+            } else {
                 car.setCarReport(true);
             }
-            
+
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Fiyat, KM, Yıl değerleri sadece sayı olamlı", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -450,25 +453,27 @@ public class frm_CarList extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
-            if(setCarInfo()){
-                if(cars.updateCarDetail(car)){
+        if (isNotEmpty()) {
+            if (setCarInfo()) {
+                if (cars.updateCarDetail(car)) {
                     JOptionPane.showMessageDialog(null, "Araba güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Araba güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Araba güncellenmesi yapılamadı.", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
                 }
+            }else{
+                JOptionPane.showMessageDialog(null, "Araba güncellenmesi yapılamadı.\nŞase numarası alanı doğru olduğundan emin olun, plaka bilgisi tekrar etmemeli ve Fiyat, KM bilgileri sayı olmalı. ", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Araba güncellenmesi yapılamadı, Şase No bulunamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         cars.tbl_SearchList(tblCars, txtCarVIN.getText(), txtCarBrand.getText(), txtCarModel.getText(), txtCarPacket.getText(), txtCarYear.getText(), txtCarPlate.getText());
-        
+
         cl_Cars car = cars.getSearchCarInfo(txtCarVIN.getText(), txtCarBrand.getText(), txtCarModel.getText(), txtCarPacket.getText(), txtCarYear.getText(), txtCarPlate.getText());
         txtCarVIN.setText(car.getCarVIN());
         txtCarPacket.setText(car.getCarPacket());
@@ -480,10 +485,10 @@ public class frm_CarList extends javax.swing.JInternalFrame {
         txtCarBrand.setText(sBrand.get_Brand(car.getCarBrands()));
         txtCarModel.setText(sModel.get_Model(car.getCarModels()));
         txtCarYear.setText(car.getCarYear());
-        
-        if(car.getCarReport()){
+
+        if (car.getCarReport()) {
             cmbCarReport.setSelectedIndex(1);
-        }else{
+        } else {
             cmbCarReport.setSelectedIndex(0);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -491,7 +496,7 @@ public class frm_CarList extends javax.swing.JInternalFrame {
     private void tblCarsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCarsMouseClicked
         // TODO add your handling code here:
         cl_Cars car = cars.getCarInfo(tblCars.getValueAt(tblCars.getSelectedRow(), 0).toString());
-        
+
         txtCarVIN.setText(car.getCarVIN());
         txtCarPacket.setText(car.getCarPacket());
         txtCarKm.setText(car.getCarKm());
@@ -502,10 +507,10 @@ public class frm_CarList extends javax.swing.JInternalFrame {
         txtCarBrand.setText(sBrand.get_Brand(car.getCarBrands()));
         txtCarModel.setText(sModel.get_Model(car.getCarModels()));
         txtCarYear.setText(car.getCarYear());
-        
-        if(car.getCarReport()){
+
+        if (car.getCarReport()) {
             cmbCarReport.setSelectedIndex(1);
-        }else{
+        } else {
             cmbCarReport.setSelectedIndex(0);
         }
     }//GEN-LAST:event_tblCarsMouseClicked

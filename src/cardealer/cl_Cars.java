@@ -22,12 +22,8 @@ public class cl_Cars {
     private String carWebLink = "";
     private boolean carReport = false;
     private String carComment = "";
-    
-    //GET
-    /*public int getCarID() {
-        return carID;
-    }*/
 
+    //GET
     public String getCarVIN() {
         return carVIN;
     }
@@ -72,12 +68,7 @@ public class cl_Cars {
         return carComment;
     }
 
-    
     //SET
-    /*public void setCarID(int carID) {
-        this.carID = carID;
-    }*/
-
     public void setCarVIN(String carVIN) {
         this.carVIN = carVIN;
     }
@@ -121,5 +112,4 @@ public class cl_Cars {
     public void setCarComment(String carComment) {
         this.carComment = carComment;
     }
-    
 }

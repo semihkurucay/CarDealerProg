@@ -18,22 +18,22 @@ public class frm_Users extends javax.swing.JInternalFrame {
      */
     public frm_Users() {
         initComponents();
-        tblUsers.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID","İSİM SOYİSİM"}));
+        tblUsers.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID", "İSİM SOYİSİM"}));
         refresh();
     }
 
     cl_Users cUser = new cl_Users();
     sl_Users sUser = new sl_Users();
-    
-    private void refresh(){
+
+    private void refresh() {
         sUser.tbl_List(tblUsers);
     }
-    
-    private boolean setUserInfo(){
-        try{
+
+    private boolean setUserInfo() {
+        try {
             float id = Float.valueOf(txtUserID.getText());
             id = Float.valueOf(txtUserPhone.getText());
-            
+
             cUser.setUserID(txtUserID.getText());
             cUser.setUserName_Surname(txtUserNameSurname.getText().toUpperCase());
             cUser.setUserTaxOffice(txtUserTaxOffice.getText().toUpperCase());
@@ -43,21 +43,21 @@ public class frm_Users extends javax.swing.JInternalFrame {
             cUser.setUserDistrict(txtUserDistrict.getText().toUpperCase());
             cUser.setUserAddress(txtUserAddress.getText().toUpperCase());
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ID ve Telefon değerleri sadece sayı olamlı", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
-    
-    private boolean isNotEmpty(){
-        if(!cUser.getUserID().equals("") && !cUser.getUserName_Surname().equals("") && !cUser.getUserPhone().equals("") && !cUser.getUserCity().equals("") && !cUser.getUserCity().equals("") && !cUser.getUserDistrict().equals("") && !cUser.getUserAddress().equals("")){
+
+    private boolean isNotEmpty() {
+        if (!cUser.getUserID().equals("") && !cUser.getUserName_Surname().equals("") && !cUser.getUserPhone().equals("") && !cUser.getUserCity().equals("") && !cUser.getUserCity().equals("") && !cUser.getUserDistrict().equals("") && !cUser.getUserAddress().equals("")) {
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "ID, Ad Soyad, Telefon, Şehir, İlçe, Adres\nbölümleri boş geçilemez.", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -411,35 +411,35 @@ public class frm_Users extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if(!sUser.isThereUser(txtUserID.getText())){
-            if(setUserInfo() && isNotEmpty()){
-                if(sUser.add(cUser)){
+        if (!sUser.isThereUser(txtUserID.getText())) {
+            if (setUserInfo() && isNotEmpty()) {
+                if (sUser.add(cUser)) {
                     JOptionPane.showMessageDialog(null, "Kullanıcı eklemesi başarıyla gerçekleşti", "Başarılı Ekleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Kullanıcı eklemesi yapılamadı", "Başarısız Ekleme", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı eklemesi yapılamadı, ID kayıtlı", "Başarısız Ekleme", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if(sUser.isThereUser(txtUserID.getText())){
-            if(setUserInfo() && isNotEmpty()){
-                if(sUser.update(cUser)){
+        if (sUser.isThereUser(txtUserID.getText())) {
+            if (setUserInfo() && isNotEmpty()) {
+                if (sUser.update(cUser)) {
                     JOptionPane.showMessageDialog(null, "Kullanıcı güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Kullanıcı güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı güncellenmesi yapılamadı, ID bulunamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -458,7 +458,7 @@ public class frm_Users extends javax.swing.JInternalFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        if(sUser.isThereUser(txtUserID.getText())){
+        if (sUser.isThereUser(txtUserID.getText())) {
             cl_Users user = sUser.getUserInfo(txtUserID.getText());
             txtUserID.setText(user.getUserID());
             txtUserNameSurname.setText(user.getUserName_Surname());
@@ -468,10 +468,10 @@ public class frm_Users extends javax.swing.JInternalFrame {
             txtUserCity.setText(user.getUserCity());
             txtUserDistrict.setText(user.getUserDistrict());
             txtUserAddress.setText(user.getUserAddress());
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı", "Başarısız Arama", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
 

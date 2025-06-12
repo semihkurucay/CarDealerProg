@@ -28,48 +28,48 @@ public class frm_Buying extends javax.swing.JInternalFrame {
     sl_Users sUser = new sl_Users();
     sl_Process sProc = new sl_Process();
     mail sendMail = new mail();
-    
-    private void refresh(){
+
+    private void refresh() {
         addItemCmbBrands();
         addItemCmbModels();
     }
-    
-    private void addItemCmbBrands(){
+
+    private void addItemCmbBrands() {
         cmbCarBrands.removeAllItems();
-        
+
         ArrayList<cl_Brands> brands = sBrand.get_Brands();
-        
-        for(cl_Brands brand : brands){
+
+        for (cl_Brands brand : brands) {
             cmbCarBrands.addItem(brand);
         }
     }
-    
-    private void addItemCmbModels(){
+
+    private void addItemCmbModels() {
         cmbCarModels.removeAllItems();
-        
+
         cl_Brands brand = (cl_Brands) cmbCarBrands.getSelectedItem();
         ArrayList<cl_Models> models = sModel.get_Models(brand.getBrandID());
-        
-        for(cl_Models model : models){
+
+        for (cl_Models model : models) {
             cmbCarModels.addItem(model);
         }
     }
-    
-    private void addCarItem(){
+
+    private void addCarItem() {
         cl_Brands brand = (cl_Brands) cmbCarBrands.getSelectedItem();
         cl_Models model = (cl_Models) cmbCarModels.getSelectedItem();
-            
+
         car.setCarBrands(brand.getBrandID());
         car.setCarModels(model.getModelID());
-        car.setCarPacket(txtCarPacket.getText().toUpperCase());
-        car.setCarVIN(txtCarVIN.getText());
-        car.setCarKm(txtCarKm.getText());
-        car.setCarYear(txtCarYear.getText());
-        car.setCarPlate(txtCarPlate.getText().toUpperCase());
-        car.setCarPrice(txtCarPrice.getText());
-        car.setCarComment(txtCarComment.getText());
+        car.setCarPacket(txtCarPacket.getText().toUpperCase().trim());
+        car.setCarVIN(txtCarVIN.getText().trim());
+        car.setCarKm(txtCarKm.getText().trim());
+        car.setCarYear(txtCarYear.getText().trim());
+        car.setCarPlate(txtCarPlate.getText().toUpperCase().trim());
+        car.setCarPrice(txtCarPrice.getText().trim());
+        car.setCarComment(txtCarComment.getText().trim());
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -358,93 +358,97 @@ public class frm_Buying extends javax.swing.JInternalFrame {
 
     private void cmbCarModelsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCarModelsActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cmbCarModelsActionPerformed
 
     private void btnBuyingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuyingActionPerformed
         // TODO add your handling code here:
-        try{
-            float chk = Float.valueOf(txtCarKm.getText());
-            chk = Float.valueOf(txtCarYear.getText());
-            chk = Float.valueOf(txtCarPrice.getText());
-            chk = Float.valueOf(txtUserID.getText());
-            
+        try {
+            float chk = Float.valueOf(txtCarKm.getText().trim());
+            chk = Float.valueOf(txtCarYear.getText().trim());
+            chk = Float.valueOf(txtCarPrice.getText().trim());
+            chk = Float.valueOf(txtUserID.getText().trim());
+
             cl_Brands brand = (cl_Brands) cmbCarBrands.getSelectedItem();
             cl_Models model = (cl_Models) cmbCarModels.getSelectedItem();
-        
-            if(sUser.isThereUser(txtUserID.getText())){
-                if(txtCarVIN.getText().length() > 0){
-                    if(!sCar.isThereStockCar(txtCarVIN.getText())){
-                        if(sCar.isThereVIN(txtCarVIN.getText())){
-                            if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Araba daha önceden alınmış bulunmakta.\nTekrardan almak istediğinize emin misiniz?", "Tekrarlanan Alım", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)){
-                                if(sCar.isThereCar(txtCarVIN.getText(), brand.getBrandID(), model.getModelID(), txtCarYear.getText())){
-                                    addCarItem();
-                        
-                                    if(cmbCarReport.getSelectedIndex() == 0){
-                                        car.setCarReport(false);
-                                    }else{
-                                        car.setCarReport(true);
-                                    }
-                                
-                                    boolean isAddCar = sCar.setBuy(car);
-                                    boolean isAddProc = sProc.process(car, txtUserID.getText(), txtCarPrice.getText(),"ALIŞ");
-                                
-                                    if(isAddCar && isAddProc){
-                                        String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
-                                        sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
-                                        JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
-                                    }else{
-                                        if(isAddCar){
-                                            sCar.cancelSetBuy(car);
+
+            if (sUser.isThereUser(txtUserID.getText())) {
+                if (txtCarVIN.getText().length() > 0) {
+                    if (!sCar.isThereStockCar(txtCarVIN.getText())) {
+                        if (!sCar.isTherePlate(txtCarPlate.getText().toUpperCase()) && txtCarPlate.getText().length() > 0) {
+                            if (sCar.isThereVIN(txtCarVIN.getText())) {
+                                if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Araba daha önceden alınmış bulunmakta.\nTekrardan almak istediğinize emin misiniz?", "Tekrarlanan Alım", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
+                                    if (sCar.isThereCar(txtCarVIN.getText(), brand.getBrandID(), model.getModelID(), txtCarYear.getText())) {
+                                        addCarItem();
+
+                                        if (cmbCarReport.getSelectedIndex() == 0) {
+                                            car.setCarReport(false);
+                                        } else {
+                                            car.setCarReport(true);
                                         }
-                                        if(isAddProc){
-                                            sProc.cancelProcess(sProc.getID());
+
+                                        boolean isAddCar = sCar.setBuy(car);
+                                        boolean isAddProc = sProc.process(car, txtUserID.getText(), txtCarPrice.getText(), "ALIŞ");
+
+                                        if (isAddCar && isAddProc) {
+                                            String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
+                                            sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
+                                            JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
+                                        } else {
+                                            if (isAddCar) {
+                                                sCar.cancelSetBuy(car);
+                                            }
+                                            if (isAddProc) {
+                                                sProc.cancelProcess(sProc.getID());
+                                            }
+                                            JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
                                         }
-                                        JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı,\nMarka/Model/Yıl bilgileri kayıtlı arabadan farklı!\nPolise haber verin", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
                                     }
-                                }else{
-                                    JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı,\nMarka/Model/Yıl bilgileri kayıtlı arabadan farklı!\nPolise haber verin", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
                                 }
-                            }   
-                        }else{
-                            addCarItem();
-                        
-                            if(cmbCarReport.getSelectedIndex() == 0){
-                            car.setCarReport(false);
-                            }else{
-                                car.setCarReport(true);
+                            } else {
+                                addCarItem();
+
+                                if (cmbCarReport.getSelectedIndex() == 0) {
+                                    car.setCarReport(false);
+                                } else {
+                                    car.setCarReport(true);
+                                }
+
+                                boolean isAddCar = sCar.buy(car);
+                                boolean isAddProc = sProc.process(car, txtUserID.getText(), txtCarPrice.getText(), "ALIŞ");
+
+                                if (isAddCar && isAddProc) {
+                                    String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
+                                    sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
+                                    JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
+                                } else {
+                                    if (isAddCar) {
+                                        sCar.cancelBuy(car);
+                                    }
+                                    if (isAddProc) {
+                                        sProc.cancelProcess(sProc.getID());
+                                    }
+                                    JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
-                        
-                            boolean isAddCar = sCar.buy(car);
-                            boolean isAddProc = sProc.process(car, txtUserID.getText(), txtCarPrice.getText(), "ALIŞ");
-                        
-                            if(isAddCar && isAddProc){
-                                String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
-                                sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
-                                JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
-                            }else{
-                                if(isAddCar){
-                                    sCar.cancelBuy(car);
-                                }
-                                if(isAddProc){
-                                    sProc.cancelProcess(sProc.getID());
-                                }
-                                JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
-                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı, araba plakası stoklarınızda bulunmaktadır", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
                         }
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı, araba stoklarınızda bulunmaktadır", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Araba alımı yapılamadı, Şase numarası boş geçilemez", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Kullanıcı kayıtlı değil, kullanıcıyı ekleyin", "Başarısız Alım", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hatalı değer girişi yapıldı!\nKullanıcı ID, Yıl, Km, Fiyat bilgilrti boş geçilemez ve sadece sayı girilebilir!", "Hatalı Giriş", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnBuyingActionPerformed
 
 

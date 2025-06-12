@@ -19,39 +19,39 @@ public class frm_Models extends javax.swing.JInternalFrame {
      */
     public frm_Models() {
         initComponents();
-        tblModels.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID","MARKA","MODEL","MARKA_ID"}));
+        tblModels.setModel(new DefaultTableModel(new Object[][]{}, new String[]{"ID", "MARKA", "MODEL", "MARKA_ID"}));
         tblModels.getColumnModel().getColumn(3).setMaxWidth(0);
         tblModels.getColumnModel().getColumn(3).setMinWidth(0);
         tblModels.getColumnModel().getColumn(3).setWidth(0);
-        
+
         refresh();
     }
 
     sl_Brands sBrand = new sl_Brands();
     sl_Models sModel = new sl_Models();
     cl_Models model = new cl_Models();
-    
-    private void addItemCmbBrands(){
+
+    private void addItemCmbBrands() {
         ArrayList<cl_Brands> brands = sBrand.get_Brands();
-        for(cl_Brands brand : brands){
+        for (cl_Brands brand : brands) {
             cmbBrands.addItem(brand);
         }
     }
-    
-    private void refresh(){
+
+    private void refresh() {
         sModel.tbl_List(tblModels);
         addItemCmbBrands();
     }
-    
-    private boolean isNotEmpty(){
-        if(!txtModelName.getText().equals("") && cmbBrands.getSelectedIndex()>-1){
+
+    private boolean isNotEmpty() {
+        if (!txtModelName.getText().equals("") && cmbBrands.getSelectedIndex() > -1) {
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Model Adı bölümü boş geçilemez ve Marka seçilmeli", "Hatalı Format Girişi", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -265,18 +265,18 @@ public class frm_Models extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
+        if (isNotEmpty()) {
             cl_Brands brands = (cl_Brands) cmbBrands.getSelectedItem();
-        
+
             model.setModelName(txtModelName.getText().toUpperCase());
             model.setModel_brand_ID(brands.getBrandID());
-            if(sModel.add(model)){
-            JOptionPane.showMessageDialog(null, "Model eklemesi başarıyla gerçekleşti", "Başarılı Ekleme", JOptionPane.INFORMATION_MESSAGE);
-            }else{
+            if (sModel.add(model)) {
+                JOptionPane.showMessageDialog(null, "Model eklemesi başarıyla gerçekleşti", "Başarılı Ekleme", JOptionPane.INFORMATION_MESSAGE);
+            } else {
                 JOptionPane.showMessageDialog(null, "Model eklemesi yapılamadı", "Başarısız Ekleme", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -287,23 +287,23 @@ public class frm_Models extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if(isNotEmpty()){
+        if (isNotEmpty()) {
             cl_Brands brands = (cl_Brands) cmbBrands.getSelectedItem();
-        
-            try{
+
+            try {
                 model.setModelID(Integer.valueOf(txtModelID.getText()));
                 model.setModelName(txtModelName.getText().toUpperCase());
                 model.setModel_brand_ID(brands.getBrandID());
-                if(sModel.update(model)){
+                if (sModel.update(model)) {
                     JOptionPane.showMessageDialog(null, "Model güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Model güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Model güncellenmesi yapılamadı, ID değeri sadece sayı olamlı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         refresh();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -311,12 +311,12 @@ public class frm_Models extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         txtModelID.setText(tblModels.getValueAt(tblModels.getSelectedRow(), 0).toString());
         txtModelName.setText(tblModels.getValueAt(tblModels.getSelectedRow(), 2).toString());
-        
+
         int brn_ID = Integer.valueOf(tblModels.getValueAt(tblModels.getSelectedRow(), 3).toString());
-        
-        for(int i = 0; i < cmbBrands.getItemCount(); i++){
+
+        for (int i = 0; i < cmbBrands.getItemCount(); i++) {
             cl_Brands brand = (cl_Brands) cmbBrands.getItemAt(i);
-            if(brand.getBrandID() == brn_ID){
+            if (brand.getBrandID() == brn_ID) {
                 cmbBrands.setSelectedIndex(i);
                 break;
             }

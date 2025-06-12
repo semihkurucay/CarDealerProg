@@ -18,7 +18,7 @@ public class frm_Selling extends javax.swing.JInternalFrame {
     public frm_Selling() {
         initComponents();
     }
-    
+
     sl_Process sProc = new sl_Process();
     sl_CarList sCar = new sl_CarList();
     sl_Users sUser = new sl_Users();
@@ -148,38 +148,38 @@ public class frm_Selling extends javax.swing.JInternalFrame {
 
     private void btnSellingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellingActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             Float chk = Float.valueOf(txtSelling.getText());
             chk = Float.valueOf(txtUserID.getText());
-            
-            if(sUser.isThereUser(txtUserID.getText())){
-                if(sCar.isThereStockCar(txtCarID.getText())){
+
+            if (sUser.isThereUser(txtUserID.getText())) {
+                if (sCar.isThereStockCar(txtCarID.getText())) {
                     cl_Cars car = sCar.getCarInfo(txtCarID.getText());
                     cl_Cars carCancel = car;
-                    
+
                     boolean isSellProc = sProc.process(car, txtUserID.getText(), txtSelling.getText(), "SATIŞ");
                     boolean isSellCar = sCar.sell(car);
-                    
-                    if(isSellProc && isSellCar){
+
+                    if (isSellProc && isSellCar) {
                         String carBrandModelPlate = sProc.getCarBrandModel(txtCarID.getText());
                         sendMail.sendMail(txtUserID.getText(), sProc.getID(), "SATIŞ", txtCarID.getText(), carBrandModelPlate);
                         JOptionPane.showMessageDialog(null, "Araba satışı başarıyla gerçekleşti", "Başarılı Stış", JOptionPane.INFORMATION_MESSAGE);
-                    }else{
-                        if(isSellProc){
+                    } else {
+                        if (isSellProc) {
                             sProc.cancelProcess(sProc.getID());
                         }
-                        if(isSellCar){
+                        if (isSellCar) {
                             sCar.cancelSell(carCancel);
                         }
                         JOptionPane.showMessageDialog(null, "Araba satışı yapılamadı", "Başarısız Stış", JOptionPane.ERROR_MESSAGE);
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Araba satışı yapılamadı, araba stoklarınızda bulunmamaktadır", "Başarısız Stış", JOptionPane.ERROR_MESSAGE);
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Kullanıcı kayıtlı değil, kullanıcıyı ekleyin", "Başarısız Stış", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hatalı değer girişi yapıldı!\nKullanıcı ID ve Fiyat bilgilrti boş geçilemez ve sadece sayı girilebilir!", "Hatalı Giriş", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSellingActionPerformed

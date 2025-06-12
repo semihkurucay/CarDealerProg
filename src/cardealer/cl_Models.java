@@ -19,11 +19,11 @@ public class cl_Models {
         this.modelID = modelID;
         this.modelName = modelName;
     }
-    
+
     public cl_Models() {
-        
+
     }
-    
+
     //GET
     public int getModelID() {
         return modelID;
@@ -36,12 +36,11 @@ public class cl_Models {
     public String getModelName() {
         return modelName;
     }
-    
+
     public String getModel_brand_Name() {
         return model_brand_Name;
     }
 
-    
     //SET
     public void setModelID(int modelID) {
         this.modelID = modelID;
@@ -54,13 +53,13 @@ public class cl_Models {
     public void setModelName(String modelName) {
         this.modelName = modelName;
     }
-    
+
     public void setModel_brand_Name(String model_brand_Name) {
         this.model_brand_Name = model_brand_Name;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return modelName;
     }
 }
