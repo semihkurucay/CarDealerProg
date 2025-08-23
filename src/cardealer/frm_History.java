@@ -337,7 +337,7 @@ public class frm_History extends javax.swing.JInternalFrame {
         txtProcessID.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         lblProcessType.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblProcessType.setText("jLabel18");
+        lblProcessType.setText("null");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
