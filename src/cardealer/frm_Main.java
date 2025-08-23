@@ -4,6 +4,8 @@
  */
 package cardealer;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author semih
@@ -15,6 +17,8 @@ public class frm_Main extends javax.swing.JFrame {
      */
     public frm_Main() {
         initComponents();
+        
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
     }
 
     /**

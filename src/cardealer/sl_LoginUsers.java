@@ -29,21 +29,13 @@ public class sl_LoginUsers {
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
-        int id = -1;
-        String userName = "";
-        String password = "";
-
         try {
             conn = sConn.getConnection();
             stt = conn.createStatement();
             rs = stt.executeQuery("Select lgn_ID,lgn_Username,lgn_Password from tbl_Login");
 
             while (rs.next()) {
-                id = rs.getInt("lgn_ID");
-                userName = rs.getString("lgn_Username");
-                password = rs.getString("lgn_Password");
-
-                mTable.addRow(new Object[]{id, userName, password});
+                mTable.addRow(new Object[]{rs.getInt("lgn_ID"), rs.getString("lgn_Username"), rs.getString("lgn_Password")});
             }
 
             conn.close();

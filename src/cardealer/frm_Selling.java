@@ -22,6 +22,7 @@ public class frm_Selling extends javax.swing.JInternalFrame {
     sl_Process sProc = new sl_Process();
     sl_CarList sCar = new sl_CarList();
     sl_Users sUser = new sl_Users();
+    sl_Mail sMail = new sl_Mail();
     mail sendMail = new mail();
 
     /**
@@ -162,7 +163,9 @@ public class frm_Selling extends javax.swing.JInternalFrame {
 
                     if (isSellProc && isSellCar) {
                         String carBrandModelPlate = sProc.getCarBrandModel(txtCarID.getText());
-                        sendMail.sendMail(txtUserID.getText(), sProc.getID(), "SATIŞ", txtCarID.getText(), carBrandModelPlate);
+                        if (sUser.isThereMail(txtUserID.getText()) && sMail.isThereMail()) {
+                            sendMail.sendMail(txtUserID.getText(), sProc.getID(), "SATIŞ", txtCarID.getText(), carBrandModelPlate);
+                        }
                         JOptionPane.showMessageDialog(null, "Araba satışı başarıyla gerçekleşti", "Başarılı Stış", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         if (isSellProc) {

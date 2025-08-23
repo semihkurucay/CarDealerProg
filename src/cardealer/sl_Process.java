@@ -30,22 +30,13 @@ public class sl_Process {
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
-        int id = -1;
-        String history = "", user = "", price = "", title = "";
-
         try {
             conn = sConn.getConnection();
             stt = conn.createStatement();
             rs = stt.executeQuery("select * from tbl_Process ORDER BY prc_ID DESC");
 
             while (rs.next()) {
-                id = rs.getInt("prc_ID");
-                history = rs.getString("prc_hst_ID");
-                user = rs.getString("prc_usr_ID");
-                price = rs.getString("prc_Price");
-                title = rs.getString("prc_Title");
-
-                mTable.addRow(new Object[]{id, history, user, price, title});
+                mTable.addRow(new Object[]{rs.getInt("prc_ID"), rs.getString("prc_hst_ID"), rs.getString("prc_usr_ID"), rs.getString("prc_Price"), rs.getString("prc_Title")});
             }
 
             conn.close();
@@ -60,26 +51,20 @@ public class sl_Process {
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
-        int id = -1;
-        String history = "", user = "", price = "", title = "";
-
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select prc_ID,prc_hst_ID,prc_usr_ID,prc_Title,prc_Price from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where prc_hst_ID LIKE '%" + _ref + "%' AND prc_usr_ID LIKE '%" + _user + "%' AND hst_VIN LIKE '%" + _vin + "%' ORDER BY prc_ID DESC");
+            pstt = conn.prepareStatement("select prc_ID,prc_hst_ID,prc_usr_ID,prc_Title,prc_Price from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where prc_hst_ID LIKE ? AND prc_usr_ID LIKE ? AND hst_VIN LIKE ? ORDER BY prc_ID DESC");
+            pstt.setString(1, "%"+_ref+"%");
+            pstt.setString(2, "%"+_user+"%");
+            pstt.setString(3, "%"+_vin+"%");
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
-                id = rs.getInt("prc_ID");
-                history = rs.getString("prc_hst_ID");
-                user = rs.getString("prc_usr_ID");
-                price = rs.getString("prc_Price");
-                title = rs.getString("prc_Title");
-
-                mTable.addRow(new Object[]{id, history, user, price, title});
+                mTable.addRow(new Object[]{rs.getInt("prc_ID"), rs.getString("prc_hst_ID"), rs.getString("prc_usr_ID"), rs.getString("prc_Price"), rs.getString("prc_Title")});
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Process.tbl_SearchList sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Process.tbl_SearchList - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -91,15 +76,16 @@ public class sl_Process {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_HistoryCar where hst_ID='" + id + "'");
+            pstt = conn.prepareStatement("select * from tbl_HistoryCar where hst_ID=?");
+            pstt.setString(1, id);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 isThere = true;
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Process.isThereID sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Process.isThereID - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -117,15 +103,16 @@ public class sl_Process {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select brn_Name,mdl_Name,hst_Packet,hst_Plate from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_VIN='" + vin + "'");
+            pstt = conn.prepareStatement("select brn_Name,mdl_Name,hst_Packet,hst_Plate from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_VIN=?");
+            pstt.setString(1, vin);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 get = rs.getString("brn_Name") + " " + rs.getString("mdl_Name") + " - " + rs.getString("hst_Packet") + " - " + rs.getString("hst_Plate");
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Process.getCarBrandModel sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Process.getCarBrandModel - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -139,8 +126,9 @@ public class sl_Process {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select prc_hst_ID,prc_Title,prc_Price,usr_ID,usr_NameSurname,car_VIN,brn_Name,mdl_Name,hst_Packet,car_Year,hst_Km,hst_Plate,hst_WebUrl,hst_Report,hst_Comment from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where prc_hst_ID='" + vin + "'");
+            pstt = conn.prepareStatement("select prc_hst_ID,prc_Title,prc_Price,usr_ID,usr_NameSurname,car_VIN,brn_Name,mdl_Name,hst_Packet,car_Year,hst_Km,hst_Plate,hst_WebUrl,hst_Report,hst_Comment from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where prc_hst_ID=?");
+            pstt.setString(1, vin);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 info[0] = rs.getString("prc_hst_ID");
@@ -165,7 +153,7 @@ public class sl_Process {
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Process.isThereID sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Process.isThereID - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -179,8 +167,11 @@ public class sl_Process {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select prc_hst_ID,prc_Title,prc_Price,usr_ID,usr_NameSurname,car_VIN,brn_Name,mdl_Name,hst_Packet,car_Year,hst_Km,hst_Plate,hst_WebUrl,hst_Report,hst_Comment from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where prc_hst_ID LIKE '%" + ref + "%' AND prc_usr_ID LIKE '%" + user + "%' AND hst_VIN LIKE '%" + vin + "%'");
+            pstt = conn.prepareStatement("select prc_hst_ID,prc_Title,prc_Price,usr_ID,usr_NameSurname,car_VIN,brn_Name,mdl_Name,hst_Packet,car_Year,hst_Km,hst_Plate,hst_WebUrl,hst_Report,hst_Comment from tbl_Process join tbl_HistoryCar on tbl_Process.prc_hst_ID=tbl_HistoryCar.hst_ID join tbl_Users on tbl_Process.prc_usr_ID=tbl_Users.usr_ID join tbl_Cars on tbl_HistoryCar.hst_VIN=tbl_Cars.car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where prc_hst_ID LIKE ? AND prc_usr_ID LIKE ? AND hst_VIN LIKE ?");
+            pstt.setString(1, ref);
+            pstt.setString(2, user);
+            pstt.setString(3, vin);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 info[0] = rs.getString("prc_hst_ID");
@@ -205,7 +196,7 @@ public class sl_Process {
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Process.isThereID sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Process.isThereID - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);

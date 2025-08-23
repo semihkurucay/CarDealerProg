@@ -18,21 +18,25 @@ public class frm_MailSetting extends javax.swing.JInternalFrame {
     public frm_MailSetting() {
         initComponents();
 
-        txtMail.setText(mSetting[0]);
-        txtPassword.setText(mSetting[1]);
-        txtPort.setText(mSetting[2]);
-        txtHost.setText(mSetting[3]);
+        try {
+            txtMail.setText(mSetting[0]);
+            txtPassword.setText(mSetting[1]);
+            txtPort.setText(mSetting[2]);
+            txtHost.setText(mSetting[3]);
 
-        if (mSetting[4].equals("true")) {
-            cmbAuth.setSelectedIndex(0);
-        } else {
-            cmbAuth.setSelectedIndex(1);
-        }
+            if (mSetting[4].equals("true")) {
+                cmbAuth.setSelectedIndex(0);
+            } else {
+                cmbAuth.setSelectedIndex(1);
+            }
 
-        if (mSetting[5].equals("true")) {
-            cmbStarttls.setSelectedIndex(0);
-        } else {
-            cmbStarttls.setSelectedIndex(1);
+            if (mSetting[5].equals("true")) {
+                cmbStarttls.setSelectedIndex(0);
+            } else {
+                cmbStarttls.setSelectedIndex(1);
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -242,11 +246,20 @@ public class frm_MailSetting extends javax.swing.JInternalFrame {
             starttls = false;
         }
 
-        if (sMail.updateMailSetting(txtMail.getText(), txtPassword.getText(), txtPort.getText(), txtHost.getText(), auth, starttls)) {
-            JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+        if (sMail.mailCount() > 0) {
+            if (sMail.updateMailSetting(txtMail.getText(), txtPassword.getText(), txtPort.getText(), txtHost.getText(), auth, starttls)) {
+                JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            if (sMail.addMailSetting(txtMail.getText(), txtPassword.getText(), txtPort.getText(), txtHost.getText(), auth, starttls)) {
+                JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Mail ayar güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+            }
         }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

@@ -29,20 +29,13 @@ public class sl_CarList {
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
-        String vin = "", plate = "", brn_Name = "", mdl_Name = "";
-
         try {
             conn = sConn.getConnection();
             stt = conn.createStatement();
             rs = stt.executeQuery("select car_VIN,dtl_Plate,brn_Name,mdl_Name from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_IsActive = 1");
 
             while (rs.next()) {
-                vin = rs.getString("car_VIN");
-                plate = rs.getString("dtl_Plate");
-                brn_Name = rs.getString("brn_Name");
-                mdl_Name = rs.getString("mdl_Name");
-
-                mTable.addRow(new Object[]{vin, plate, brn_Name, mdl_Name});
+                mTable.addRow(new Object[]{rs.getString("car_VIN"), rs.getString("dtl_Plate"), rs.getString("brn_Name"), rs.getString("mdl_Name")});
             }
 
             conn.close();
@@ -57,24 +50,23 @@ public class sl_CarList {
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
-        String vin = "", plate = "", brn_Name = "", mdl_Name = "";
-
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select car_VIN,dtl_Plate,brn_Name,mdl_Name from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_VIN LIKE '%" + _vin + "%' AND brn_Name LIKE '%" + _brand + "%' AND mdl_Name LIKE '%" + _model + "%' AND dtl_Packet LIKE '%" + _packet + "%' AND car_Year LIKE '%" + _year + "%' AND dtl_Plate LIKE '%" + _plate + "%' AND car_IsActive = 1");
+            pstt = conn.prepareStatement("select car_VIN,dtl_Plate,brn_Name,mdl_Name from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_VIN LIKE ? AND brn_Name LIKE ? AND mdl_Name LIKE ? AND dtl_Packet LIKE ? AND car_Year LIKE ? AND dtl_Plate LIKE ? AND car_IsActive = 1");
+            pstt.setString(1, "%" + _vin + "%");
+            pstt.setString(2, "%" + _brand + "%");
+            pstt.setString(3, "%" + _model + "%");
+            pstt.setString(4, "%" + _packet + "%");
+            pstt.setString(5, "%" + _year + "%");
+            pstt.setString(6, "%" + _plate + "%");
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
-                vin = rs.getString("car_VIN");
-                plate = rs.getString("dtl_Plate");
-                brn_Name = rs.getString("brn_Name");
-                mdl_Name = rs.getString("mdl_Name");
-
-                mTable.addRow(new Object[]{vin, plate, brn_Name, mdl_Name});
+                mTable.addRow(new Object[]{rs.getString("car_VIN"), rs.getString("dtl_Plate"), rs.getString("brn_Name"), rs.getString("mdl_Name")});
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.tbl_SearchList sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.tbl_SearchList - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -86,16 +78,16 @@ public class sl_CarList {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_Cars where car_VIN='" + vin + "'");
+            pstt = conn.prepareStatement("select * from tbl_Cars where car_VIN=?");
+            pstt.setString(1, vin);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 isThere = true;
-
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.isThereVIN sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.isThereVIN - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -109,16 +101,19 @@ public class sl_CarList {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_Cars where car_VIN='" + vin + "' AND car_brn_ID=" + brn_ID + " AND car_mdl_ID=" + mdl_ID + " AND car_Year='" + year + "'");
+            pstt = conn.prepareStatement("select * from tbl_Cars where car_VIN=? AND car_brn_ID=? AND car_mdl_ID=? AND car_Year=?");
+            pstt.setString(1, vin);
+            pstt.setInt(2, brn_ID);
+            pstt.setInt(3, mdl_ID);
+            pstt.setString(4, year);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 isThere = true;
-
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.isThereCar sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.isThereCar - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -132,19 +127,44 @@ public class sl_CarList {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_Cars where car_VIN='" + vin + "' AND car_IsActive=1");
+            pstt = conn.prepareStatement("select * from tbl_Cars where car_VIN=? AND car_IsActive=1");
+            pstt.setString(1, vin);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 isThere = true;
-
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.isThereStockCar sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.isThereStockCar - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+
+        return isThere;
+    }
+
+    public boolean isEqualsPlate(String vin, String plate) {
+        boolean isThere = false;
+
+        try {
+            conn = sConn.getConnection();
+            pstt = conn.prepareStatement("select dtl_Plate from tbl_CarDetial where dtl_car_VIN=?");
+            pstt.setString(1, vin);
+            rs = pstt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("dtl_Plate").equals(plate)) {
+                    isThere = true;
+                }
+            }
+
+            conn.close();
+            pstt.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_CarList.isEqualsPlate sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.isEqualsPlate - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
         }
 
         return isThere;
@@ -155,15 +175,18 @@ public class sl_CarList {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_CarDetial where dtl_Plate='" + plate + "'");
+            pstt = conn.prepareStatement("select * from tbl_CarDetial where dtl_Plate=?");
+            pstt.setString(1, plate);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
-                isThere = true;
+                if (rs.getString("dtl_Plate").equals(plate)) {
+                    isThere = true;
+                }
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.isTherePlate sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.isTherePlate - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -177,8 +200,9 @@ public class sl_CarList {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select car_VIN,car_brn_ID,car_mdl_ID,car_Year,dtl_Packet,dtl_KM,dtl_Plate,dtl_Price,dtl_WebUrl,dtl_Report,dtl_Comment from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN where car_IsActive=1 AND car_VIN='" + vin + "'");
+            pstt = conn.prepareStatement("select car_VIN,car_brn_ID,car_mdl_ID,car_Year,dtl_Packet,dtl_KM,dtl_Plate,dtl_Price,dtl_WebUrl,dtl_Report,dtl_Comment from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN where car_IsActive=1 AND car_VIN=?");
+            pstt.setString(1, vin);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 car.setCarVIN(rs.getString("car_VIN"));
@@ -195,7 +219,7 @@ public class sl_CarList {
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.qetCarInfo sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.qetCarInfo - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -209,8 +233,14 @@ public class sl_CarList {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select car_VIN,car_brn_ID,car_mdl_ID,car_Year,dtl_Packet,dtl_KM,dtl_Plate,dtl_Price,dtl_WebUrl,dtl_Report,dtl_Comment from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_VIN LIKE '%" + _vin + "%' AND brn_Name LIKE '%" + _brand + "%' AND mdl_Name LIKE '%" + _model + "%' AND dtl_Packet LIKE '%" + _packet + "%' AND car_Year LIKE '%" + _year + "%' AND dtl_Plate LIKE '%" + _plate + "%' AND car_IsActive = 1");
+            pstt = conn.prepareStatement("select car_VIN,car_brn_ID,car_mdl_ID,car_Year,dtl_Packet,dtl_KM,dtl_Plate,dtl_Price,dtl_WebUrl,dtl_Report,dtl_Comment from tbl_Cars join tbl_CarDetial on tbl_Cars.car_VIN=tbl_CarDetial.dtl_car_VIN join tbl_Brands on tbl_Cars.car_brn_ID=tbl_Brands.brn_ID join tbl_Models on tbl_Cars.car_mdl_ID=tbl_Models.mdl_ID where car_VIN LIKE ? AND brn_Name LIKE ? AND mdl_Name LIKE ? AND dtl_Packet LIKE ? AND car_Year LIKE ? AND dtl_Plate LIKE ? AND car_IsActive = 1");
+            pstt.setString(1, "%" + _vin + "%");
+            pstt.setString(2, "%" + _brand + "%");
+            pstt.setString(3, "%" + _model + "%");
+            pstt.setString(4, "%" + _packet + "%");
+            pstt.setString(5, "%" + _year + "%");
+            pstt.setString(6, "%" + _plate + "%");
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 car.setCarVIN(rs.getString("car_VIN"));
@@ -227,7 +257,7 @@ public class sl_CarList {
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_CarList.getSearchCarInfo sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_CarList.getSearchCarInfo - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);

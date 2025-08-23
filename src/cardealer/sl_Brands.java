@@ -27,7 +27,6 @@ public class sl_Brands {
     private ResultSet rs = null;
 
     public void tbl_List(JTable table) {
-        cl_Brands brnd = new cl_Brands();
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
@@ -37,10 +36,7 @@ public class sl_Brands {
             rs = stt.executeQuery("Select * from tbl_Brands");
 
             while (rs.next()) {
-                brnd.setBrandID(rs.getInt("brn_ID"));
-                brnd.setBrandName(rs.getString("brn_Name"));
-
-                mTable.addRow(new Object[]{brnd.getBrandID(), brnd.getBrandName()});
+                mTable.addRow(new Object[]{rs.getInt("brn_ID"), rs.getString("brn_Name")});
             }
 
             conn.close();
@@ -77,15 +73,16 @@ public class sl_Brands {
         String brand = "";
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("Select * from tbl_Brands where brn_ID=" + id);
+            pstt = conn.prepareStatement("Select * from tbl_Brands where brn_ID=?");
+            pstt.setInt(1, id);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 brand = rs.getString("brn_Name");
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Brands.get_Brand sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Brands.get_Brand - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);

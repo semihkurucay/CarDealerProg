@@ -27,7 +27,6 @@ public class sl_Models {
     private ResultSet rs = null;
 
     public void tbl_List(JTable table) {
-        cl_Models model = new cl_Models();
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
@@ -37,12 +36,7 @@ public class sl_Models {
             rs = stt.executeQuery("Select mdl_ID,brn_Name,mdl_brn_ID,mdl_Name from tbl_Models join tbl_Brands on tbl_Models.mdl_brn_ID=tbl_Brands.brn_ID");
 
             while (rs.next()) {
-                model.setModel_brand_Name(rs.getString("brn_Name"));
-                model.setModelID(rs.getInt("mdl_ID"));
-                model.setModelName(rs.getString("mdl_Name"));
-                model.setModel_brand_ID(rs.getInt("mdl_brn_ID"));
-
-                mTable.addRow(new Object[]{model.getModelID(), model.getModel_brand_Name(), model.getModelName(), model.getModel_brand_ID()});
+                mTable.addRow(new Object[]{rs.getInt("mdl_ID"), rs.getString("brn_Name"), rs.getString("mdl_Name"), rs.getInt("mdl_brn_ID")});
             }
 
             conn.close();
@@ -58,15 +52,16 @@ public class sl_Models {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("Select * from tbl_Models where mdl_brn_ID=" + brn_ID);
+            pstt = conn.prepareStatement("Select * from tbl_Models where mdl_brn_ID=?");
+            pstt.setInt(1, brn_ID);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 models.add(new cl_Models(rs.getInt("mdl_ID"), rs.getString("mdl_Name")));
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Models.get_Models sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Models.get_Models - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -75,19 +70,20 @@ public class sl_Models {
         return models;
     }
 
-    public String get_Model(int id) {
+    public String get_Model(int brn_ID) {
         String model = "";
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("Select * from tbl_Models where mdl_ID=" + id);
+            pstt = conn.prepareStatement("Select * from tbl_Models where mdl_brn_ID=?");
+            pstt.setInt(1, brn_ID);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 model = rs.getString("mdl_Name");
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Models.get_Model sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Models.get_Model - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);

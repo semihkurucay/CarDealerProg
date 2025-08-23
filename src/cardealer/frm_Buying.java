@@ -18,7 +18,11 @@ public class frm_Buying extends javax.swing.JInternalFrame {
      */
     public frm_Buying() {
         initComponents();
-        refresh();
+        try {
+            refresh();
+        } catch (Exception e) {
+
+        }
     }
 
     cl_Cars car = new cl_Cars();
@@ -27,6 +31,7 @@ public class frm_Buying extends javax.swing.JInternalFrame {
     sl_CarList sCar = new sl_CarList();
     sl_Users sUser = new sl_Users();
     sl_Process sProc = new sl_Process();
+    sl_Mail sMail = new sl_Mail();
     mail sendMail = new mail();
 
     private void refresh() {
@@ -392,7 +397,9 @@ public class frm_Buying extends javax.swing.JInternalFrame {
 
                                         if (isAddCar && isAddProc) {
                                             String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
-                                            sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
+                                            if (sUser.isThereMail(txtUserID.getText()) && sMail.isThereMail()) {
+                                                sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
+                                            }
                                             JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
                                         } else {
                                             if (isAddCar) {
@@ -421,7 +428,9 @@ public class frm_Buying extends javax.swing.JInternalFrame {
 
                                 if (isAddCar && isAddProc) {
                                     String carBrandModelPlate = sProc.getCarBrandModel(txtCarVIN.getText());
-                                    sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
+                                    if (sUser.isThereMail(txtUserID.getText()) && sMail.isThereMail()) {
+                                        sendMail.sendMail(txtUserID.getText(), sProc.getID(), "ALIŞ", txtCarVIN.getText(), carBrandModelPlate);
+                                    }
                                     JOptionPane.showMessageDialog(null, "Araba alımı başarıyla gerçekleşti", "Başarılı Alım", JOptionPane.INFORMATION_MESSAGE);
                                 } else {
                                     if (isAddCar) {

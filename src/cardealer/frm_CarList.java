@@ -44,8 +44,10 @@ public class frm_CarList extends javax.swing.JInternalFrame {
     }
 
     private boolean setCarInfo() {
-        if (cars.isTherePlate(txtCarPlate.getText().toUpperCase()) || txtCarPlate.getText().length() < 1) {
-            return false;
+        if (!cars.isEqualsPlate(txtCarVIN.getText(), txtCarPlate.getText().toUpperCase())) {
+            if (cars.isTherePlate(txtCarPlate.getText().toUpperCase()) || txtCarPlate.getText().length() < 1) {
+                return false;
+            }
         }
 
         try {
@@ -460,7 +462,7 @@ public class frm_CarList extends javax.swing.JInternalFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Araba güncellenmesi yapılamadı.", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Araba güncellenmesi yapılamadı.\nŞase numarası alanı doğru olduğundan emin olun, plaka bilgisi tekrar etmemeli ve Fiyat, KM bilgileri sayı olmalı. ", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
             }
         } else {

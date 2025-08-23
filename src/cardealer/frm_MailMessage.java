@@ -267,10 +267,18 @@ public class frm_MailMessage extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if (mail.updateMailMessage(txtTitle.getText(), txtFrontMessage.getText(), txtBackMessage.getText())) {
-            JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
+        if (mail.mailMessageCount() > 0) {
+            if (mail.updateMailMessage(txtTitle.getText(), txtFrontMessage.getText(), txtBackMessage.getText())) {
+                JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+            if (mail.addMailMessage(txtTitle.getText(), txtFrontMessage.getText(), txtBackMessage.getText())) {
+                JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi başarıyla gerçekleşti", "Başarılı Güncelleme", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Mail mesaj güncellenmesi yapılamadı", "Başarısız Güncelleme", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 

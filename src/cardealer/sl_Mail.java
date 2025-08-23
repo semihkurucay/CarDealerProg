@@ -75,7 +75,102 @@ public class sl_Mail {
 
         return message;
     }
+    
+    public boolean isThereMail(){
+        boolean isThere = false;
+        
+        try {
+            conn = sConn.getConnection();
+            stt = conn.createStatement();
+            rs = stt.executeQuery("select * from tbl_MailSetting");
 
+            while (rs.next()) {
+                if(rs.getString("mal_MailAddress").length() > 0 && rs.getString("mal_Password").length() > 0 && rs.getString("mal_Port").length() > 0 && rs.getString("mal_Host").length() > 0){
+                    isThere = true;
+                }
+            }
+
+            conn.close();
+            stt.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_Mail.isThereMail sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Mail.isThereMail - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return isThere;
+    }
+
+    public int mailCount(){
+        int count = -1;
+        
+        try {
+            conn = sConn.getConnection();
+            stt = conn.createStatement();
+            rs = stt.executeQuery("select count(*) as mailCount from tbl_MailSetting");
+
+            while (rs.next()) {
+                count = rs.getInt("mailCount");
+            }
+
+            conn.close();
+            stt.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_Mail.mailCount sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Mail.mailCount - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return count;
+    }
+    
+    public int mailMessageCount(){
+        int count = -1;
+        
+        try {
+            conn = sConn.getConnection();
+            stt = conn.createStatement();
+            rs = stt.executeQuery("select count(*) as messageCount from tbl_MailMessage");
+
+            while (rs.next()) {
+                count = rs.getInt("messageCount");
+            }
+
+            conn.close();
+            stt.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_Mail.mailMessageCount sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Mail.mailMessageCount - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return count;
+    }
+    
+    public boolean addMailSetting(String mailAddres, String mailPassword, String mailPort, String mailHost, boolean mailAuth, boolean mailStarttls) {
+        boolean isComplate = false;
+
+        try {
+            conn = sConn.getConnection();
+            pstt = conn.prepareStatement("insert into tbl_MailSetting (mal_MailAddress,mal_Password,mal_Port,mal_Host,mal_Auth,mal_Starttls) values (?,?,?,?,?,?)");
+            pstt.setString(1, mailAddres);
+            pstt.setString(2, mailPassword);
+            pstt.setString(3, mailPort);
+            pstt.setString(4, mailHost);
+            pstt.setBoolean(5, mailAuth);
+            pstt.setBoolean(6, mailStarttls);
+            pstt.executeUpdate();
+
+            conn.close();
+            pstt.close();
+            isComplate = true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_Mail.addMailSetting sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Mail.addMailSetting - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+
+        return isComplate;
+    }
+    
     public boolean updateMailSetting(String mailAddres, String mailPassword, String mailPort, String mailHost, boolean mailAuth, boolean mailStarttls) {
         boolean isComplate = false;
 
@@ -100,6 +195,27 @@ public class sl_Mail {
         return isComplate;
     }
 
+    public boolean addMailMessage(String title, String front, String back) {
+        boolean isComplate = false;
+
+        try {
+            conn = sConn.getConnection();
+            pstt = conn.prepareStatement("insert into tbl_MailMessage (mes_Title,mes_Front,mes_Back) values (?,?,?)");
+            pstt.setString(1, title);
+            pstt.setString(2, front);
+            pstt.setString(3, back);
+            pstt.executeUpdate();
+
+            conn.close();
+            pstt.close();
+            isComplate = true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_Mail.addMailMessage sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Mail.addMailMessage - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+
+        return isComplate;
+    }
+    
     public boolean updateMailMessage(String title, String front, String back) {
         boolean isComplate = false;
 

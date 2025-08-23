@@ -23,7 +23,8 @@ public class frm_Models extends javax.swing.JInternalFrame {
         tblModels.getColumnModel().getColumn(3).setMaxWidth(0);
         tblModels.getColumnModel().getColumn(3).setMinWidth(0);
         tblModels.getColumnModel().getColumn(3).setWidth(0);
-
+        
+        addItemCmbBrands();
         refresh();
     }
 
@@ -40,7 +41,6 @@ public class frm_Models extends javax.swing.JInternalFrame {
 
     private void refresh() {
         sModel.tbl_List(tblModels);
-        addItemCmbBrands();
     }
 
     private boolean isNotEmpty() {

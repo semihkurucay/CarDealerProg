@@ -26,7 +26,6 @@ public class sl_Users {
     private ResultSet rs = null;
 
     public void tbl_List(JTable table) {
-        cl_Users user = new cl_Users();
         DefaultTableModel mTable = (DefaultTableModel) table.getModel();
         mTable.setRowCount(0);
 
@@ -36,10 +35,7 @@ public class sl_Users {
             rs = stt.executeQuery("select usr_ID,usr_NameSurname from tbl_Users");
 
             while (rs.next()) {
-                user.setUserID(rs.getString("usr_ID"));
-                user.setUserName_Surname(rs.getString("usr_NameSurname"));
-
-                mTable.addRow(new Object[]{user.getUserID(), user.getUserName_Surname()});
+                mTable.addRow(new Object[]{rs.getString("usr_ID"), rs.getString("usr_NameSurname")});
             }
 
             conn.close();
@@ -53,15 +49,16 @@ public class sl_Users {
     public cl_Users getUserInfo(String id) {
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_Users where usr_ID='" + id + "'");
+            pstt = conn.prepareStatement("select * from tbl_Users where usr_ID=?");
+            pstt.setString(1, id);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 return new cl_Users(rs.getString("usr_ID"), rs.getString("usr_NameSurname"), rs.getString("usr_TaxOffice"), rs.getString("usr_Phone"), rs.getString("usr_Mail"), rs.getString("usr_City"), rs.getString("usr_District"), rs.getString("usr_Address"));
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Users.isThereUser sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Users.isThereUser - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
@@ -74,19 +71,45 @@ public class sl_Users {
 
         try {
             conn = sConn.getConnection();
-            stt = conn.createStatement();
-            rs = stt.executeQuery("select * from tbl_Users where usr_ID='" + id + "'");
+            pstt = conn.prepareStatement("select * from tbl_Users where usr_ID=?");
+            pstt.setString(1, id);
+            rs = pstt.executeQuery();
 
             while (rs.next()) {
                 isThere = true;
             }
 
             conn.close();
-            stt.close();
+            pstt.close();
             rs.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "sl_Users.isThereUser sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Users.isThereUser - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
         }
+        return isThere;
+    }
+    
+    public boolean isThereMail(String id){
+        boolean isThere = false;
+        
+        try {
+            conn = sConn.getConnection();
+            pstt = conn.prepareStatement("select * from tbl_Users where usr_ID=?");
+            pstt.setString(1, id);
+            rs = pstt.executeQuery();
+
+            while (rs.next()) {
+                if(rs.getString("usr_Mail").length() > 0){
+                    isThere = true;
+                }
+            }
+
+            conn.close();
+            pstt.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "sl_Users.isThereMail sınıfında hata ile karşılaşıldı. Hata Kodu : " + e.getErrorCode() + " - Hata Mesajı : " + e.getMessage(), "sl_Users.isThereMail - " + e.getErrorCode(), JOptionPane.ERROR_MESSAGE);
+        }
+        
         return isThere;
     }
 

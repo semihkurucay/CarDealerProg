@@ -4,6 +4,7 @@
  */
 package cardealer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +19,7 @@ public class frm_Login extends javax.swing.JFrame {
     public frm_Login() {
         initComponents();
         txtPass.setEchoChar('\u2022');
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/icon.png")).getImage());
     }
 
     /**
