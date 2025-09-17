@@ -44,10 +44,12 @@
 <img width="745" height="732" alt="Ekran görüntüsü 2025-08-23 233211" src="https://github.com/user-attachments/assets/46b656c8-3138-47b0-9816-ce2c543a6feb" />
 
 
+## ⚖️ Lisans
 
+Bu proje [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) lisansı ile lisanslanmıştır.
 
-
-
-
+🔒 Ticari kullanım yasaktır.  
+📎 Eğitim ve kişisel kullanım için serbesttir.  
+📩 Ticari kullanım için iletişime geçiniz.
 
 
